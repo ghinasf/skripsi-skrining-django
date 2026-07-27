@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Hasil Skrining - Puskesmas Bihbul</title>
+    <style>
+        body { background-color: #fff0f5; font-family: 'Segoe UI', sans-serif; color: #4a4a4a; padding: 40px 15px; display: flex; justify-content: center;}
+        .card { background-color: white; padding: 40px; border-radius: 15px; box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15); border-top: 6px solid #d81b60; width: 100%; max-width: 600px; text-align: center;}
+        h2 { color: #c2185b; margin-bottom: 5px; }
+        .nama-pasien { font-size: 24px; font-weight: bold; color: #d81b60; margin: 20px 0; }
+        .result-box { display: flex; justify-content: space-around; background-color: #fce4ec; padding: 20px; border-radius: 10px; margin-bottom: 25px;}
+        .result-item { display: flex; flex-direction: column; }
+        .result-label { font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        .result-value { font-size: 28px; font-weight: bold; color: #d81b60; }
+        .keterangan-box { background-color: #fff9fa; border: 2px dashed #f06292; padding: 20px; border-radius: 10px; text-align: left;}
+        .keterangan-box h4 { margin-top: 0; color: #c2185b; margin-bottom: 10px;}
+        .btn { display: inline-block; background-color: #ff69b4; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; margin-top: 30px; transition: 0.3s; }
+        .btn:hover { background-color: #d81b60; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Hasil Skrining Certainty Factor</h2>
+        <div class="nama-pasien">{{ pasien.nama }}</div>
+        
+        <div class="result-box">
+            <div class="result-item">
+                <span class="result-label">Tingkat Risiko</span>
+                <span class="result-value">{{ pasien.status_risiko }}</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Nilai Kepastian</span>
+                <span class="result-value">{{ pasien.persentase_risiko }}%</span>
+            </div>
+        </div>
+
+        <div class="keterangan-box">
+            <h4>Tindakan Medis:</h4>
+            <p>{{ pasien.keterangan_medis }}</p>
+        </div>
+
+        <a href="{% url 'dashboard' %}" class="btn">Kembali ke Halaman Utama</a>
+    </div>
+</body>
+</html>

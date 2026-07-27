@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Puskesmas Bihbul</title>
+    <style>
+        body {
+            background-color: #fff0f5; /* Soft Pink / Lavender Blush */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Membuat form berada tepat di tengah layar */
+        }
+        .login-card {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+            border-top: 6px solid #ff69b4; /* Hot Pink */
+            width: 100%;
+            max-width: 350px;
+        }
+        h2 {
+            color: #d81b60; /* Deep Pink */
+            text-align: center;
+            margin-bottom: 5px;
+            margin-top: 0;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #f8bbd0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #fff9fa;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #f06292;
+            box-shadow: 0 0 8px rgba(240, 98, 146, 0.4);
+        }
+        .btn-login {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 10px;
+        }
+        .btn-login:hover {
+            background-color: #d81b60;
+        }
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>Halaman Login</h2>
+    <p class="subtitle">Sistem Skrining Diagnosis Tingkat Risiko Kehamilan Puskesmas Bihbul</p>
+
+    <!-- KODE MENAMPILKAN ERROR LOGIN -->
+    {% if pesan_error %}
+    <div style="background-color: #ffebee; color: #c62828; padding: 12px; border-radius: 8px; border-left: 5px solid #d32f2f; margin-bottom: 20px; font-weight: 600; text-align: center; font-size: 14px;">
+        ⚠️ {{ pesan_error }}
+    </div>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Masukkan username" required>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Masukkan password" required>
+        </div>
+        <button type="submit" class="btn-login">Masuk</button>
+    </form>
+    
+    <!-- Sedikit sentuhan personalisasi untuk skripsi Anda -->
+    <div class="footer-text">
+        Sistem Skrining Diagnosis Tingkat Risiko Kehamilan<br>
+        &copy; 2026 Ghina Salwa Fajriani
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Hasil Skrining - Poli KIA</title>
+    <style>
+        body { background-color: #fff0f5; font-family: 'Segoe UI', sans-serif; color: #4a4a4a; padding: 30px; display: flex; justify-content: center;}
+        .container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 4px 15px rgba(255, 105, 180, 0.1); width: 100%; max-width: 600px; text-align: center;}
+        h2 { color: #d81b60; margin-bottom: 5px; }
+        .nama-pasien { font-size: 24px; font-weight: bold; color: #c2185b; margin-bottom: 25px; }
+        
+        .profil-box { background-color: #fff9fa; border: 1px solid #fce4ec; padding: 15px; border-radius: 10px; text-align: left; margin-bottom: 25px; font-size: 14px;}
+        .profil-box p { margin: 5px 0; }
+        
+        .result-box { display: flex; justify-content: space-around; background-color: #fce4ec; padding: 20px; border-radius: 10px; margin-bottom: 25px;}
+        .result-item { display: flex; flex-direction: column; }
+        .result-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;}
+        .result-value { font-size: 28px; font-weight: bold; color: #d81b60;}
+        .status-berisiko { color: #e53935; }
+        .status-normal { color: #43a047; }
+        
+        .keterangan-box { border: 2px dashed #ff69b4; padding: 20px; border-radius: 10px; text-align: left; margin-bottom: 25px;}
+        .keterangan-title { font-weight: bold; color: #d81b60; margin-bottom: 10px; }
+        
+        .btn-back { background-color: #ff69b4; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; display: inline-block; transition: background 0.3s;}
+        .btn-back:hover { background-color: #d81b60; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Detail Hasil Skrining</h2>
+    <div class="nama-pasien">{{ p.nama }}</div>
+
+    <!-- Kotak Data Pasien -->
+    <div class="profil-box">
+        <p><strong>Tanggal Kunjungan:</strong> {{ p.tanggal_skrining|date:"d M Y" }}</p>
+        <p><strong>Usia:</strong> {{ p.usia }} Tahun</p>
+        <p><strong>Tinggi Badan:</strong> {{ p.tinggi_badan }} cm</p>
+        <p><strong>Berat Badan:</strong> {{ p.berat_badan_trimester_1 }} kg</p>
+    </div>
+
+    <!-- Kotak Nilai CF -->
+    <div class="result-box">
+        <div class="result-item">
+            <span class="result-label">Tingkat Risiko</span>
+            <span class="result-value {% if p.status_risiko == 'Berisiko' %}status-berisiko{% else %}status-normal{% endif %}">
+                {{ p.status_risiko }}
+            </span>
+        </div>
+        <div class="result-item">
+            <span class="result-label">Nilai Kepastian</span>
+            <span class="result-value">{{ p.persentase_risiko }}%</span>
+        </div>
+    </div>
+
+    <!-- Kotak Keterangan Medis -->
+    <div class="keterangan-box">
+        <div class="keterangan-title">Tindakan Medis:</div>
+        <p>{{ p.keterangan_medis }}</p>
+    </div>
+
+    <a href="{% url 'dashboard' %}" class="btn-back">Kembali ke Halaman Utama</a>
+</div>
+
+</body>
+</html>

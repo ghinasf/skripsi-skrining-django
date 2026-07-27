@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Dashboard - Poli KIA Puskesmas Bihbul</title>
+    <style>
+        body { background-color: #fff0f5; font-family: 'Segoe UI', sans-serif; color: #4a4a4a; padding: 30px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(255, 105, 180, 0.1); }
+        h2 { color: #d81b60; border-bottom: 2px solid #fce4ec; padding-bottom: 10px;}
+        .action-bar { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center;}
+        .btn-add { background-color: #ff69b4; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; }
+        .btn-logout { color: #c2185b; text-decoration: none; font-weight: 600; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #fce4ec; }
+        th { background-color: #fce4ec; color: #c2185b; }
+        tr:hover { background-color: #fff9fa; }
+        .status-berisiko { color: white; background-color: #e53935; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;}
+        .status-normal { color: white; background-color: #43a047; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold;}
+        .btn-delete { color: #e53935; text-decoration: none; font-weight: bold;}
+        .btn-lihat { color: #1e88e5; text-decoration: none; font-weight: bold; margin-right: 10px;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Halaman Utama Sistem Skrining Diagnosis Tingkat Risiko Kehamilan</h2>
+        <div class="action-bar">
+            <div>
+                <a href="{% url 'skrining' %}" class="btn-add">+ Lakukan Skrining Baru</a>
+                
+                <!-- TOMBOL ADMIN HANYA UNTUK SUPERUSER -->
+                {% if user.is_superuser %}
+                <a href="{% url 'admin:index' %}" class="btn-add" style="background-color: #c2185b; margin-left: 10px;" target="_blank" rel="noopener noreferrer">⚙️ Masuk Panel Admin</a>
+                {% endif %}
+            </div>
+            <a href="{% url 'logout' %}" class="btn-logout">Logout</a>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Tanggal Kunjungan</th>
+                    <th>Nama Pasien</th>
+                    <th>Usia</th>
+                    <th>Persentase</th>
+                    <th>Status Risiko</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in pasien_list %}
+                <tr>
+                    <td>{{ p.tanggal_skrining|date:"d M Y" }}</td>
+                    <td><strong>{{ p.nama }}</strong></td>
+                    <td>{{ p.usia }} thn</td>
+                    <td>{{ p.persentase_risiko }}%</td>
+                    <td>
+                        {% if p.status_risiko == 'Berisiko' %}
+                            <span class="status-berisiko">Berisiko</span>
+                        {% else %}
+                            <span class="status-normal">Normal</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- Teks 'Lihat Hasil' udah diganti jadi 'Detail' -->
+                        <a href="{% url 'hasil_skrining' p.id %}" class="btn-lihat">Detail</a>
+                        <a href="{% url 'delete_pasien' p.id %}" class="btn-delete" onclick="return confirm('Hapus data pasien ini?')">Hapus</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

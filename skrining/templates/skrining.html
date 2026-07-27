@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skrining Diagnosis Tingkat Risiko Kehamilan - Puskesmas Bihbul</title>
+    <style>
+        body {
+            background-color: #fff0f5; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #4a4a4a;
+            margin: 0;
+            padding: 30px 15px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.15);
+            border-top: 6px solid #ff69b4; 
+        }
+        h2 {
+            color: #d81b60; 
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+        }
+        .section-title {
+            background-color: #fce4ec;
+            color: #c2185b;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d81b60;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        input[type="text"], input[type="number"], input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #f8bbd0;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #fff9fa;
+            transition: all 0.3s;
+        }
+        input:focus {
+            outline: none;
+            border-color: #f06292;
+            box-shadow: 0 0 8px rgba(240, 98, 146, 0.4);
+        }
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            background-color: #fff9fa;
+            padding: 10px 15px;
+            border: 1px solid #fce4ec;
+            border-radius: 8px;
+        }
+        .radio-group label {
+            font-weight: normal;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0;
+            cursor: pointer;
+        }
+        .radio-group input[type="radio"] {
+            margin-right: 8px;
+            accent-color: #d81b60; 
+        }
+        .btn-submit {
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 30px;
+        }
+        .btn-submit:hover {
+            background-color: #d81b60;
+        }
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #f06292;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Form Skrining Diagnosis Tingkat RisikoKehamilan</h2>
+    <p class="subtitle">Metode Certainty Factor - Poli KIA </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- BAGIAN 1: PROFIL PASIEN -->
+        <div class="section-title">Bagian 1: Data Profil Pasien</div>
+        
+        <!-- INI INPUTAN TANGGALNYA -->
+        <div class="form-group">
+            <label>Tanggal Kunjungan</label>
+            <input type="date" name="tanggal_skrining" required>
+        </div>
+
+        <div class="form-group">
+            <label>Nama Lengkap Pasien</label>
+            <input type="text" name="nama" placeholder="Masukkan nama pasien" required>
+        </div>
+        <div class="form-group">
+            <label>Usia (Tahun)</label>
+            <input type="number" name="usia" placeholder="Contoh: 25" required>
+        </div>
+        <div class="form-group">
+            <label>Tinggi Badan (cm)</label>
+            <input type="number" step="0.1" name="tinggi_badan" placeholder="Contoh: 155" required>
+        </div>
+        <div class="form-group">
+            <label>Berat Badan Trimester I (kg)</label>
+            <input type="number" step="0.1" name="berat_badan" placeholder="Contoh: 50" required>
+        </div>
+        <div class="form-group">
+            <label>Jarak Kehamilan Sebelumnya (Tahun)</label>
+            <input type="number" step="0.1" name="jarak_kehamilan" placeholder="Contoh: 2.5 (Isi 0 jika kehamilan pertama)" required>
+        </div>
+        <div class="form-group">
+            <label>Jumlah Paritas (Kehamilan Ke-)</label>
+            <input type="number" name="jumlah_paritas" placeholder="Contoh: 1" required>
+        </div>
+
+        <!-- BAGIAN 2: GEJALA KLINIS -->
+        <div class="section-title">Bagian 2: Kriteria Gejala Klinis</div>
+
+        {% for k in kriteria_gejala %}
+        <div class="form-group">
+            <label>{{ forloop.counter }}. {{ k.nama_kriteria }}</label>
+            <div class="radio-group">
+                <label><input type="radio" name="{{ k.kode }}" value="1.0" required> Ya</label>
+                <label><input type="radio" name="{{ k.kode }}" value="0.0"> Tidak</label>
+            </div>
+        </div>
+        {% empty %}
+        <p style="color: red; font-style: italic; text-align: center;">Data kriteria gejala klinis belum diinput oleh Admin di sistem.</p>
+        {% endfor %}
+
+        <button type="submit" class="btn-submit">Proses Skrining Sekarang</button>
+        <a href="{% url 'dashboard' %}" class="back-link">← Kembali ke Halaman Utama</a>
+    </form>
+</div>
+
+</body>
+</html>

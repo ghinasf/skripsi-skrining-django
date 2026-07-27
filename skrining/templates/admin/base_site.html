@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">Poli KIA Puskesmas Bihbul</a></h1>
+{% endblock %}
+
+{% block userlinks %}
+    <a href="{% url 'admin:password_change' %}">Change password</a> /
+    <!-- Langsung nembak ke URL logout milik aplikasi kita (yang udah redirect ke dashboard/login) -->
+    <a href="{% url 'logout' %}">Log out</a>
+{% endblock %}
+
+{% block extrahead %}
+<style>
+    /* 1. CSS buat nambahin tombol logout kita sendiri biar posisinya pas */
+    .custom-logout { color: #fff; text-decoration: none; margin-left: 5px; cursor: pointer; }
+    .custom-logout:hover { text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block extrastyle %}
+<script>
+    // 2. JavaScript buat nyuntikin link logout kita sendiri ke barisan menu admin
+    window.onload = function() {
+        var userLinks = document.getElementById('user-tools');
+        if (userLinks) {
+            var logoutLink = document.createElement('a');
+            logoutLink.innerHTML = "Log out";
+            logoutLink.className = "custom-logout";
+            logoutLink.href = "{% url 'logout' %}"; // Langsung ke logout kita
+            userLinks.appendChild(document.createTextNode(" / "));
+            userLinks.appendChild(logoutLink);
+        }
+    };
+</script>
+{% endblock %}
