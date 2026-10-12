@@ -1,4 +1,4 @@
-# Sistem Pakar Diagnosis Tingkat Risiko Kehamilan
+# Sistem Skrining Diagnosis Tingkat Risiko Kehamilan
 
 Project skripsi menggunakan Django dan MySQL.
 
